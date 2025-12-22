@@ -15,6 +15,8 @@ resource "aws_iam_policy" "iam" {
 
   policy = templatefile("${path.module}/iam-changepassword-bootstrapping-policy.json", {
     foundational_bootstrapper_arn = aws_iam_user.this.arn
+    current_account_id            = data.aws_caller_identity.current.account_id
+    current_partition             = data.aws_partition.current.partition
   })
 }
 
@@ -80,7 +82,10 @@ resource "aws_iam_policy" "control_tower" {
   path        = "/bootstrapper/"
   description = "Allows the Foundational Bootstrapper to provision AWS Control Tower."
 
-  policy = file("${path.module}/controltower-bootstrapping-policy.json")
+  policy = templatefile("${path.module}/controltower-bootstrapping-policy.json", {
+    current_account_id = data.aws_caller_identity.current.account_id
+    current_partition  = data.aws_partition.current.partition
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "organizations" {

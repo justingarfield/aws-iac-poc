@@ -11,7 +11,7 @@
       "centralBackup": {
         "accountId": "${central_backup_account_id}"
       },
-      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+      "kmsKeyArn": "${backup_kms_key_arn}"
     }
   },
   "centralizedLogging": {
@@ -24,7 +24,7 @@
       "loggingBucket": {
         "retentionDays": 365
       },
-      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+      "kmsKeyArn": "${centralized_logging_kms_key_arn}"
     }
   },
   "config": {
@@ -37,7 +37,7 @@
       "loggingBucket": {
         "retentionDays": 365
       },
-      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+      "kmsKeyArn": "${config_kms_key_arn}"
     }
   },
   "governedRegions": [            

@@ -4,17 +4,17 @@
 
 resource "aws_organizations_organizational_unit" "security" {
   name      = "Security"
-  parent_id = var.organizations_root_ou_id
+  parent_id = var.organization_root_ou_id
 }
 
 resource "aws_organizations_organizational_unit" "sandbox" {
   name      = "Sandbox"
-  parent_id = var.organizations_root_ou_id
+  parent_id = var.organization_root_ou_id
 }
 
 resource "aws_organizations_organizational_unit" "infrastructure" {
   name      = "Infrastructure"
-  parent_id = var.organizations_root_ou_id
+  parent_id = var.organization_root_ou_id
 }
 
 ###############################
@@ -36,7 +36,7 @@ resource "aws_organizations_account" "backup_administrator" {
 
 resource "aws_organizations_account" "central_backup" {
   name      = "Central Backup"
-  email     = "aws+central-backup@jgarfield.com"
+  email     = "aws+backup@jgarfield.com"
   parent_id = aws_organizations_organizational_unit.security.id
 }
 
@@ -46,15 +46,16 @@ resource "aws_organizations_account" "log_archive" {
   parent_id = aws_organizations_organizational_unit.security.id
 }
 
-/*
 resource "aws_controltower_landing_zone" "this" {
-  manifest_json = templatefile("${path.module}/LandingZoneManifest.json", {
-    backup_admin_account_id        = aws_organizations_account.backup_administrator.id
-    central_backup_account_id      = aws_organizations_account.central_backup.id
-    centralized_logging_account_id = aws_organizations_account.log_archive.id,
-    config_account_id              = aws_organizations_account.audit.id
-    security_roles_account_id      = aws_organizations_account.audit.id
+  manifest_json = templatefile("${path.module}/landing-zone-manifest-4.0.json", {
+    backup_admin_account_id         = aws_organizations_account.backup_administrator.id
+    backup_kms_key_arn              = aws_kms_key.backup.arn
+    central_backup_account_id       = aws_organizations_account.central_backup.id
+    centralized_logging_account_id  = aws_organizations_account.log_archive.id
+    centralized_logging_kms_key_arn = aws_kms_key.centralized_logging.arn
+    config_account_id               = aws_organizations_account.audit.id
+    config_kms_key_arn              = aws_kms_key.config.arn
+    security_roles_account_id       = aws_organizations_account.audit.id
   })
-  version       = "4.0"
+  version = "4.0"
 }
-*/

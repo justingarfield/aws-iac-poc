@@ -18,8 +18,51 @@
 				"iam:TagRole"
 			],
 			"Resource": [
-				"arn:aws:iam::*:role/service-role/AWSControlTower*"
+				"arn:${current_partition}:iam::*:role/service-role/AWSControlTower*"
 			]
+		},
+		{
+			"Sid": "AllowBootstrapperToManageKMS",
+			"Effect": "Allow",
+			"Action": [
+				"kms:TagResource"
+			],
+			"Resource": [
+				"arn:${current_partition}:kms:*:${current_account_id}:key/*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToManageKMS2",
+			"Effect": "Allow",
+			"Action": [
+				"kms:CreateKey"
+			],
+			"Resource": [
+				"*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToManageKMS3",
+			"Effect": "Allow",
+			"Action": "iam:CreateServiceLinkedRole",
+			"Resource": "arn:${current_partition}:iam::*:role/aws-service-role/mrk.kms.amazonaws.com/*",
+			"Condition": {
+				"StringLike": {
+					"iam:AWSServiceName": "mrk.kms.amazonaws.com"
+				}
+			}
+		},
+		{
+			"Sid": "AllowBootstrapperToManageKMS4",
+			"Effect": "Allow",
+			"Action": [
+				"kms:EnableKeyRotation",
+				"kms:DescribeKey",
+				"kms:GetKeyPolicy",
+				"kms:GetKeyRotationStatus",
+				"kms:ListResourceTags"
+			],
+			"Resource": "arn:${current_partition}:kms:us-east-1:${current_account_id}:key/*"
 		}
     ]
 }
