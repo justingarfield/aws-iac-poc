@@ -45,7 +45,7 @@ resource "aws_organizations_account" "log_archive" {
   email     = "aws+log-archive@jgarfield.com"
   parent_id = aws_organizations_organizational_unit.security.id
 }
-
+/*
 resource "aws_controltower_landing_zone" "this" {
   manifest_json = templatefile("${path.module}/landing-zone-manifest-4.0.json", {
     backup_admin_account_id         = aws_organizations_account.backup_administrator.id
@@ -59,3 +59,4 @@ resource "aws_controltower_landing_zone" "this" {
   })
   version = "4.0"
 }
+*/

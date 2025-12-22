@@ -55,5 +55,10 @@ resource "aws_kms_key" "centralized_logging" {
   description             = "AWS Config KMS key"
   enable_key_rotation     = true
   multi_region            = true
-  deletion_window_in_days = 20
+  deletion_window_in_days = 7
+}
+
+resource "aws_kms_alias" "centralized_logging" {
+  name          = "alias/centralized_logging"
+  target_key_id = aws_kms_key.centralized_logging.key_id
 }

@@ -35,5 +35,10 @@ resource "aws_kms_key" "config" {
   description             = "AWS Config KMS key"
   enable_key_rotation     = true
   multi_region            = true
-  deletion_window_in_days = 20
+  deletion_window_in_days = 7
+}
+
+resource "aws_kms_alias" "config" {
+  name          = "alias/config"
+  target_key_id = aws_kms_key.config.key_id
 }

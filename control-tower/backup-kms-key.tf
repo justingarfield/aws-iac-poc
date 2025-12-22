@@ -47,5 +47,10 @@ resource "aws_kms_key" "backup" {
   description             = "AWS Backup KMS key"
   enable_key_rotation     = true
   multi_region            = true
-  deletion_window_in_days = 20
+  deletion_window_in_days = 7
+}
+
+resource "aws_kms_alias" "backup" {
+  name          = "alias/backup"
+  target_key_id = aws_kms_key.backup.key_id
 }

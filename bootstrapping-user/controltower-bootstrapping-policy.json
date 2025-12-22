@@ -35,7 +35,8 @@
 			"Sid": "AllowBootstrapperToManageKMS2",
 			"Effect": "Allow",
 			"Action": [
-				"kms:CreateKey"
+				"kms:CreateKey",
+				"kms:ListAliases"
 			],
 			"Resource": [
 				"*"
@@ -60,9 +61,14 @@
 				"kms:DescribeKey",
 				"kms:GetKeyPolicy",
 				"kms:GetKeyRotationStatus",
-				"kms:ListResourceTags"
+				"kms:ListResourceTags",
+				"kms:CreateAlias",
+				"kms:DeleteAlias"
 			],
-			"Resource": "arn:${current_partition}:kms:us-east-1:${current_account_id}:key/*"
+			"Resource": [
+				"arn:${current_partition}:kms:us-east-1:${current_account_id}:key/*",
+				"arn:${current_partition}:kms:us-east-1:${current_account_id}:alias/*"
+			]
 		}
     ]
 }
