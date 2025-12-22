@@ -1,0 +1,50 @@
+{
+  "accessManagement": {
+    "enabled": true
+  },
+  "backup": {
+    "enabled": true,
+    "configurations": {
+      "backupAdmin": {
+        "accountId": "${backup_admin_account_id}"
+      },
+      "centralBackup": {
+        "accountId": "${central_backup_account_id}"
+      },
+      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+    }
+  },
+  "centralizedLogging": {
+    "accountId": "${centralized_logging_account_id}",
+    "enabled": true,            
+    "configurations": {
+      "accessLoggingBucket": {
+        "retentionDays": 365
+      },
+      "loggingBucket": {
+        "retentionDays": 365
+      },
+      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+    }
+  },
+  "config": {
+    "accountId": "${config_account_id}",
+    "enabled": true,            
+    "configurations": {
+      "accessLoggingBucket": {
+        "retentionDays": 365
+      },
+      "loggingBucket": {
+        "retentionDays": 365
+      },
+      "kmsKeyArn": "arn:aws:kms:region:account-id:key/key-id"
+    }
+  },
+  "governedRegions": [            
+    "us-east-1"
+  ],
+  "securityRoles": {
+    "enabled": true,            
+    "accountId": "${security_roles_account_id}"
+  }
+}

@@ -1,0 +1,346 @@
+{
+    "type": "object",
+    "required": [],
+    "properties": {
+        "accessManagement": {
+            "$ref": "#/definitions/AccessManagement"
+        },
+        "backup": {
+            "$ref": "#/definitions/Backup"
+        },
+        "centralizedLogging": {
+            "$ref": "#/definitions/CentralizedLogging"
+        },
+        "governedRegions": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "maxLength": 24,
+                "minLength": 1,
+                "pattern": "^[a-z]{2}-[a-z\\-]*-[0-9]{1}$",
+                "additionalProperties": false
+            },
+            "additionalProperties": false
+        },
+        "securityRoles": {
+            "$ref": "#/definitions/SecurityRoles"
+        },
+        "config": {
+            "$ref": "#/definitions/Config"
+        }
+    },
+    "additionalProperties": false,
+    "definitions": {
+        "AccessManagement": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "Backup": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "configurations": {
+                    "$ref": "#/definitions/BackupConfigurations"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "if": {
+                "properties": {
+                    "enabled": {
+                        "const": true
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "configurations"
+                ]
+            }
+        },
+        "BackupAdminConfigurations": {
+            "type": "object",
+            "required": [
+                "accountId"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 12,
+                    "pattern": "^\\d{12}$",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "BackupConfigurations": {
+            "type": "object",
+            "required": [
+                "backupAdmin",
+                "centralBackup",
+                "kmsKeyArn"
+            ],
+            "properties": {
+                "backupAdmin": {
+                    "$ref": "#/definitions/BackupAdminConfigurations"
+                },
+                "centralBackup": {
+                    "$ref": "#/definitions/CentralBackupConfigurations"
+                },
+                "kmsKeyArn": {
+                    "type": "string",
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "additionalProperties": false
+                },
+                "backupPlan": {
+                    "$ref": "#/definitions/BackupPlanDefinition"
+                }
+            },
+            "additionalProperties": false
+        },
+        "CentralBackupConfigurations": {
+            "type": "object",
+            "required": [
+                "accountId"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 12,
+                    "pattern": "^\\d{12}$",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "BackupPlanDefinition": {
+            "type": "object",
+            "required": [
+                "scheduleExpression",
+                "localVaultRetentionDays",
+                "selectionTag"
+            ],
+            "properties": {
+                "scheduleExpression": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256,
+                    "additionalProperties": false
+                },
+                "localVaultRetentionDays": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 36500,
+                    "additionalProperties": false
+                },
+                "centralVaultRetentionDays": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 36500,
+                    "additionalProperties": false
+                },
+                "selectionTag": {
+                    "$ref": "#/definitions/SelectionTagMap"
+                }
+            },
+            "additionalProperties": false
+        },
+        "SelectionTagMap": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256,
+                    "additionalProperties": false
+                },
+                "value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256,
+                    "additionalProperties": false
+                }
+            }
+        },
+        "CentralizedLogging": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 12,
+                    "pattern": "^\\d{12}$",
+                    "additionalProperties": false
+                },
+                "configurations": {
+                    "$ref": "#/definitions/LoggingConfigurations"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "if": {
+                "properties": {
+                    "enabled": {
+                        "const": true
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "accountId"
+                ]
+            }
+        },
+        "LoggingConfigurations": {
+            "type": "object",
+            "properties": {
+                "accessLoggingBucket": {
+                    "$ref": "#/definitions/S3BucketConfiguration"
+                },
+                "kmsKeyArn": {
+                    "type": "string",
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "additionalProperties": false
+                },
+                "loggingBucket": {
+                    "$ref": "#/definitions/S3BucketConfiguration"
+                },
+                "bucketRegion": {
+                    "type": "string",
+                    "maxLength": 24,
+                    "minLength": 1,
+                    "pattern": "^[a-z]{2}-[a-z\\-]*-[0-9]{1}$",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "S3BucketConfiguration": {
+            "type": "object",
+            "properties": {
+                "bucketArn": {
+                    "type": "string",
+                    "maxLength": 2048,
+                    "minLength": 16,
+                    "pattern": "^arn:(aws*[0-9a-zA-Z-]*[0-9a-zA-Z]):s3:::([a-z0-9.-]+[a-z0-9.])$",
+                    "additionalProperties": false
+                },
+                "retentionDays": {
+                    "type": "number",
+                    "minimum": 1,
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "SecurityRoles": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 12,
+                    "pattern": "^\\d{12}$",
+                    "additionalProperties": false
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "if": {
+                "properties": {
+                    "enabled": {
+                        "const": true
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "accountId"
+                ]
+            }
+        },
+        "Config": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "accountId": {
+                    "type": "string",
+                    "maxLength": 12,
+                    "minLength": 12,
+                    "pattern": "^\\d{12}$",
+                    "additionalProperties": false
+                },
+                "configurations": {
+                    "$ref": "#/definitions/ConfigConfiguration"
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false,
+            "if": {
+                "properties": {
+                    "enabled": {
+                        "const": true
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "accountId"
+                ]
+            }
+        },
+        "ConfigConfiguration": {
+            "type": "object",
+            "required": [],
+            "properties": {
+                "loggingBucket": {
+                    "$ref": "#/definitions/S3BucketConfiguration"
+                },
+                "accessLoggingBucket": {
+                    "$ref": "#/definitions/S3BucketConfiguration"
+                },
+                "kmsKeyArn": {
+                    "type": "string",
+                    "maxLength": 2048,
+                    "minLength": 1,
+                    "additionalProperties": false
+                }
+            }
+        }
+    }
+}

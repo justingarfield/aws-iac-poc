@@ -1,0 +1,25 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowBootstrapperToManageRequiredRoles",
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateRole",
+				"iam:GetRole",
+				"iam:ListRolePolicies",
+				"iam:ListAttachedRolePolicies",
+				"iam:ListInstanceProfilesForRole",
+				"iam:DeleteRole",
+				"iam:AttachRolePolicy",
+				"iam:PutRolePolicy",
+				"iam:GetRolePolicy",
+				"iam:DeleteRolePolicy",
+				"iam:TagRole"
+			],
+			"Resource": [
+				"arn:aws:iam::*:role/service-role/AWSControlTower*"
+			]
+		}
+    ]
+}
