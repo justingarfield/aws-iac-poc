@@ -34,7 +34,7 @@ resource "aws_kms_key_policy" "config" {
 resource "aws_kms_key" "config" {
   description             = "AWS Config KMS key"
   enable_key_rotation     = true
-  multi_region            = true
+  multi_region            = false # "The KMS key selected for the AWS CloudTrail integration must not be a multi-region key."
   deletion_window_in_days = 7
 }
 

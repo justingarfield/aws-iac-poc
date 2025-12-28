@@ -1,12 +1,20 @@
 # aws-iac-poc
 
+This repository contains a Proof of Concept (POC) 
+
+## Objectives
+
+* Deploy an AWS Control Tower enabled environment from scratch
+* Use the root user for as little as possible during provisioning
+* Provision as much as possible using OpenTofu
+* Avoid using long-lived credentials throughout the entire process
+
 ## Prerequsites
 
-```bash
-curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
-sudo apt install ./keybase_amd64.deb
-run_keybase
-```
+* [WSL Ubuntu 24.04](https://learn.microsoft.com/en-us/windows/wsl/install) or [equivalent](https://ubuntu.com/desktop)
+* [mise-en-place](https://mise.jdx.dev/)
+* [Keybase Client](https://keybase.io/download)
+* Ability to create a new AWS Management Account outside of any pre-existing AWS Organization _(aka...have a Credit Card handy)_
 
 ## Management Root Setup
 

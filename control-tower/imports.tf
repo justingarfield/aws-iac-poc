@@ -43,39 +43,53 @@ import {
   id = "AWSControlTowerAdmin/arn:aws:iam::aws:policy/service-role/AWSControlTowerServiceRolePolicy"
 }
 
-import {
-  to = aws_organizations_account.audit
-  id = "182138814237"
+removed {
+  from = aws_organizations_account.audit
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_account.backup_administrator
-  id = "569148493463"
+removed {
+  from = aws_organizations_account.backup_administrator
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_account.central_backup
-  id = "176545285433"
+removed {
+  from = aws_organizations_account.central_backup
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_account.log_archive
-  id = "052032053611"
+removed {
+  from = aws_organizations_account.log_archive
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_organizational_unit.infrastructure
-  id = "ou-xj34-tthjptsp"
+removed {
+  from = aws_organizations_organizational_unit.infrastructure
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_organizational_unit.sandbox
-  id = "ou-xj34-mfdkqq58"
+removed {
+  from = aws_organizations_organizational_unit.sandbox
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_organizations_organizational_unit.security
-  id = "ou-xj34-zi15tm0r"
+removed {
+  from = aws_organizations_organizational_unit.security
+  lifecycle {
+    destroy = false
+  }
 }
 
 moved {
@@ -87,3 +101,9 @@ moved {
   from = aws_kms_key_policy.this
   to   = aws_kms_key_policy.backup
 }
+/*
+import {
+  to = aws_controltower_landing_zone.this
+  id = "1931KSSHIHLNIUXQ"
+}
+*/

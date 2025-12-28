@@ -9,6 +9,30 @@ sudo apt update && sudo apt install wslu
 sudo sed -i 's/\/proc\/sys\/fs\/binfmt_misc\/WSLInterop/\/proc\/sys\/fs\/binfmt_misc\/WSLInterop-late/g' /usr/bin/wslview
 ```
 
+## Landing Zone "Stuck" or "Broken" when initially deploying
+
+If Landing Zone gets in a "Stuck" or "Broken" state when initially deploying, you can manually call to have it decommissioned...
+
+```bash
+aws controltower delete-landing-zone --landing-zone-identifier <landing_zone_arn>
+```
+
+Note: It can take up to two hours to decommission a Landing Zone, even a brand-new one. Please be patient and don't touch things during this time. Refresh the Control Tower landing page until the warning banner goes away, or use the following AWS CLI command to monitor its status...
+
+```bash
+aws controltower get-landing-zone-operation --operation-identifier <operation_id>
+
+# Example response:
+{
+    "operationDetails": {
+        "operationType": "DELETE",
+        "operationIdentifier": "<operation_id>",
+        "status": "IN_PROGRESS",
+        "startTime": "2025-12-23T14:30:53+00:00"
+    }
+}
+```
+
 # Todo: Restrict more on "arn:aws:iam::*:role/service-role/AWSControlTower*" in `AllowBootstrapperToCreateRequiredRoles` Policy
 
 ## References

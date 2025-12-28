@@ -68,7 +68,7 @@ resource "aws_iam_role" "aws_control_tower_cloud_trail" {
 }
 
 resource "aws_iam_role_policy_attachment" "aws_control_tower_cloud_trail_role_policy" {
-  role       = aws_iam_role.aws_control_tower_admin.name
+  role       = aws_iam_role.aws_control_tower_cloud_trail.name
   policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AWSControlTowerCloudTrailRolePolicy"
 }
 

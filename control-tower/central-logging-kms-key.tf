@@ -25,7 +25,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
           "kms:Decrypt",
           "kms:GenerateDataKey"
         ],
-        "Resource" : "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/YOUR-KMS-KEY-ID"
+        "Resource" : "${aws_kms_key.centralized_logging.arn}"
       },
       {
         "Sid" : "Allow CloudTrail to use KMS for encryption",
@@ -37,7 +37,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
           "kms:GenerateDataKey*",
           "kms:Decrypt"
         ],
-        "Resource" : "arn:${data.aws_partition.current.partition}:kms:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:key/YOUR-KMS-KEY-ID",
+        "Resource" : "${aws_kms_key.centralized_logging.arn}"
         "Condition" : {
           "StringEquals" : {
             "aws:SourceArn" : "arn:${data.aws_partition.current.partition}:cloudtrail:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:trail/aws-controltower-BaselineCloudTrail"
@@ -54,7 +54,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
 resource "aws_kms_key" "centralized_logging" {
   description             = "AWS Config KMS key"
   enable_key_rotation     = true
-  multi_region            = true
+  multi_region            = false # "The KMS key selected for the AWS Config integration must not be a multi-region key."
   deletion_window_in_days = 7
 }
 

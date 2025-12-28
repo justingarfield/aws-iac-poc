@@ -15,10 +15,21 @@
 				"iam:PutRolePolicy",
 				"iam:GetRolePolicy",
 				"iam:DeleteRolePolicy",
-				"iam:TagRole"
+				"iam:TagRole",
+				"iam:DetachRolePolicy"
 			],
 			"Resource": [
 				"arn:${current_partition}:iam::*:role/service-role/AWSControlTower*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToCreateRoleInOtherAccounts",
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateRole"
+			],
+			"Resource": [
+				"arn:${current_partition}:iam::*:role/*"
 			]
 		},
 		{
@@ -63,11 +74,48 @@
 				"kms:GetKeyRotationStatus",
 				"kms:ListResourceTags",
 				"kms:CreateAlias",
-				"kms:DeleteAlias"
+				"kms:DeleteAlias",
+				"kms:ScheduleKeyDeletion",
+				"kms:UpdateAlias",
+				"kms:PutKeyPolicy"
 			],
 			"Resource": [
 				"arn:${current_partition}:kms:us-east-1:${current_account_id}:key/*",
 				"arn:${current_partition}:kms:us-east-1:${current_account_id}:alias/*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToProvisionLandingZoneWildcard",
+			"Effect": "Allow",
+			"Action": [
+				"controltower:TagResource",
+				"controltower:CreateLandingZone",
+				"controltower:GetLandingZoneOperation"
+			],
+			"Resource": [
+				"*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToProvisionLandingZoneSpecific",
+			"Effect": "Allow",
+			"Action": [
+				"controltower:GetLandingZoneOperation",
+				"controltower:GetLandingZone",
+				"controltower:ListTagsForResource"
+			],
+			"Resource": [
+				"arn:${current_partition}:controltower:us-east-1:${current_account_id}:landingzone/*"
+			]
+		},
+		{
+			"Sid": "AllowBootstrapperToProvisionLandingZoneSpecific2",
+			"Effect": "Allow",
+			"Action": [
+				"organizations:EnablePolicyType"
+			],
+			"Resource": [
+				"arn:${current_partition}:organizations::${current_account_id}:root/*/*"
 			]
 		}
     ]
