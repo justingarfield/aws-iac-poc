@@ -117,6 +117,44 @@
 			"Resource": [
 				"arn:${current_partition}:organizations::${current_account_id}:root/*/*"
 			]
+		},
+		{
+			"Sid": "AllowBootstrapperToProvisionIAMIdentityCenter",
+			"Effect": "Allow",
+			"Action": [
+				"sso:ListInstances",
+				"identitystore:CreateUser",
+				"identitystore:CreateGroup",
+				"identitystore:DescribeUser",
+				"identitystore:DescribeGroup",
+				"identitystore:DeleteUser",
+				"identitystore:DeleteGroup",
+				"identitystore:CreateGroupMembership",
+				"identitystore:DescribeGroupMembership",
+				"identitystore:DeleteGroupMembership",
+				"sso:TagResource",
+				"sso:CreatePermissionSet",
+				"sso:DescribePermissionSet",
+				"sso:ListTagsForResource",
+				"sso:DeletePermissionSet",
+				"sso:ListManagedPoliciesInPermissionSet",
+				"sso:AttachManagedPolicyToPermissionSet",
+				"sso:ProvisionPermissionSet",
+				"sso:DetachManagedPolicyFromPermissionSet",
+				"sso:DescribePermissionSetProvisioningStatus",
+				"sso:ListAccountAssignments",
+				"sso:CreateAccountAssignment",
+				"sso:DescribeAccountAssignmentCreationStatus"
+			],
+			"Resource": [
+				"arn:${current_partition}:sso:::account/*",
+				"arn:${current_partition}:sso:::instance/*",
+				"arn:${current_partition}:sso:::permissionSet/ssoins-*",
+				"arn:${current_partition}:identitystore::${current_account_id}:identitystore/d-*",
+				"arn:${current_partition}:identitystore:::user/*",
+				"arn:${current_partition}:identitystore:::group/*",
+				"arn:${current_partition}:identitystore:::membership/*"
+			]
 		}
-    ]
+	]
 }

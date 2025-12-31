@@ -1,4 +1,14 @@
-variable "organization_root_ou_id" {
-  description = "The Id of the AWS Organizations Root OU."
+variable "user_email" {
+  description = ""
+  type        = string
+}
+
+variable "user_family_name" {
+  description = ""
+  type        = string
+}
+
+variable "user_given_name" {
+  description = ""
   type        = string
 }

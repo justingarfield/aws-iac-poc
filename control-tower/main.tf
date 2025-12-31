@@ -1,13 +1,13 @@
 resource "aws_controltower_landing_zone" "this" {
   manifest_json = templatefile("${path.module}/landing-zone-manifest-4.0.json", {
-    backup_admin_account_id         = var.backup_admin_account_id
+    backup_admin_account_id         = data.terraform_remote_state.control_tower_accounts.outputs.backup_admin_account_id
     backup_kms_key_arn              = aws_kms_key.backup.arn
-    central_backup_account_id       = var.central_backup_account_id
-    centralized_logging_account_id  = aws_organizations_account.log_archive.id
+    central_backup_account_id       = data.terraform_remote_state.control_tower_accounts.outputs.central_backup_account_id
+    centralized_logging_account_id  = data.terraform_remote_state.control_tower_accounts.outputs.centralized_logging_account_id
     centralized_logging_kms_key_arn = aws_kms_key.centralized_logging.arn
-    config_account_id               = var.audit_account_id
+    config_account_id               = data.terraform_remote_state.control_tower_accounts.outputs.audit_account_id
     config_kms_key_arn              = aws_kms_key.config.arn
-    security_roles_account_id       = var.audit_account_id
+    security_roles_account_id       = data.terraform_remote_state.control_tower_accounts.outputs.audit_account_id
   })
   version = "4.0"
 }

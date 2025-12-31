@@ -19,11 +19,6 @@ import {
 }
 
 import {
-  to = aws_organizations_organizational_unit.infrastructure
-  id = "ou-xj34-tthjptsp"
-}
-
-import {
   to = aws_organizations_organizational_unit.sandbox
   id = "ou-xj34-mfdkqq58"
 }

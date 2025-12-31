@@ -35,7 +35,7 @@ resource "aws_kms_key_policy" "backup" {
         Resource = "*",
         Condition = {
           "StringEquals" : {
-            "aws:PrincipalOrgID" : "${var.organization_id}"
+            "aws:PrincipalOrgID" : "${data.terraform_remote_state.organization.outputs.organization_id}"
           }
         }
       }
