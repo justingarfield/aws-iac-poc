@@ -90,7 +90,9 @@
 			"Action": [
 				"controltower:TagResource",
 				"controltower:CreateLandingZone",
-				"controltower:GetLandingZoneOperation"
+				"controltower:GetLandingZoneOperation",
+				"controltower:UpdateLandingZone",
+				"organizations:EnableAWSServiceAccess"
 			],
 			"Resource": [
 				"*"

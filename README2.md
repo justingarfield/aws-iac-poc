@@ -33,6 +33,29 @@ aws controltower get-landing-zone-operation --operation-identifier <operation_id
 }
 ```
 
+## Some helpful commands
+
+```bash
+aws controltower list-landing-zones
+
+aws controltower delete-landing-zone --landing-zone-identifier <landing zone id>
+
+# Poll every 60-seconds to check status of Landing Zone Operation
+watch -n 60 aws controltower get-landing-zone-operation --operation-identifier <operation id>
+
+# Cleanup after decommissioning a Control Tower Landing Zone (probably don't need this once everything is happy)
+aws iam delete-role-policy --role-name AWSControlTowerAdmin --policy-name AWSControlTowerAdminPolicy
+aws iam detach-role-policy --role-name AWSControlTowerAdmin --policy-arn arn:aws:iam::aws:policy/service-role/AWSControlTowerServiceRolePolicy
+aws iam delete-role --role-name AWSControlTowerAdmin
+
+aws iam delete-role-policy --role-name AWSControlTowerCloudTrailRole --policy-name AWSControlTowerCloudTrailRolePolicy
+aws iam detach-role-policy --role-name AWSControlTowerCloudTrailRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSControlTowerCloudTrailRolePolicy
+aws iam delete-role --role-name AWSControlTowerCloudTrailRole
+
+aws iam delete-role-policy --role-name AWSControlTowerStackSetRole --policy-name AWSControlTowerStackSetRolePolicy
+aws iam delete-role --role-name AWSControlTowerStackSetRole
+```
+
 # Todo: Restrict more on "arn:aws:iam::*:role/service-role/AWSControlTower*" in `AllowBootstrapperToCreateRequiredRoles` Policy
 
 ## References

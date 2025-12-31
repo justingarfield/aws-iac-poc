@@ -97,3 +97,8 @@ resource "aws_iam_role_policy_attachment" "control_tower" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.control_tower.arn
 }
+
+resource "aws_iam_role_policy_attachment" "control_tower" {
+  role       = aws_iam_role.this.name
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AWSControlTowerIdentityCenterManagementPolicy"
+}

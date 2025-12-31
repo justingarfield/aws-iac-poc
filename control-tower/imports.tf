@@ -1,46 +1,64 @@
-import {
-  to = aws_iam_role.aws_control_tower_admin
-  id = "AWSControlTowerAdmin"
+removed {
+  from = aws_iam_role.aws_control_tower_admin
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role.aws_control_tower_cloud_trail
-  id = "AWSControlTowerCloudTrailRole"
+removed {
+  from = aws_iam_role.aws_control_tower_cloud_trail
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role.aws_control_tower_config_aggregator_for_organizations
-  id = "AWSControlTowerConfigAggregatorRoleForOrganizations"
+removed {
+  from = aws_iam_role.aws_control_tower_config_aggregator_for_organizations
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role.aws_control_tower_stack_set
-  id = "AWSControlTowerStackSetRole"
+removed {
+  from = aws_iam_role.aws_control_tower_stack_set
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role_policy.aws_control_tower_admin
-  id = "AWSControlTowerAdmin:AWSControlTowerAdminPolicy"
+removed {
+  from = aws_iam_role_policy.aws_control_tower_admin
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role_policy.aws_control_tower_stack_set
-  id = "AWSControlTowerStackSetRole:AWSControlTowerStackSetRolePolicy"
+removed {
+  from = aws_iam_role_policy.aws_control_tower_stack_set
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role_policy_attachment.aws_config_role_for_organizations
-  id = "AWSControlTowerConfigAggregatorRoleForOrganizations/arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations"
+removed {
+  from = aws_iam_role_policy_attachment.aws_config_role_for_organizations
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role_policy_attachment.aws_control_tower_cloud_trail_role_policy
-  id = "AWSControlTowerAdmin/arn:aws:iam::aws:policy/service-role/AWSControlTowerCloudTrailRolePolicy"
+removed {
+  from = aws_iam_role_policy_attachment.aws_control_tower_cloud_trail_role_policy
+  lifecycle {
+    destroy = false
+  }
 }
 
-import {
-  to = aws_iam_role_policy_attachment.aws_control_tower_service_role_policy
-  id = "AWSControlTowerAdmin/arn:aws:iam::aws:policy/service-role/AWSControlTowerServiceRolePolicy"
+removed {
+  from = aws_iam_role_policy_attachment.aws_control_tower_service_role_policy
+  lifecycle {
+    destroy = false
+  }
 }
 
 removed {

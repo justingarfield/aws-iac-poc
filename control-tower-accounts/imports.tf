@@ -27,3 +27,13 @@ import {
   to = aws_organizations_organizational_unit.security
   id = "ou-xj34-zi15tm0r"
 }
+
+import {
+  to = aws_iam_role.aws_control_tower_config_aggregator_for_organizations
+  id = "AWSControlTowerConfigAggregatorRoleForOrganizations"
+}
+
+import {
+  to = aws_iam_role_policy_attachment.aws_config_role_for_organizations
+  id = "AWSControlTowerConfigAggregatorRoleForOrganizations/arn:aws:iam::aws:policy/service-role/AWSConfigRoleForOrganizations"
+}
