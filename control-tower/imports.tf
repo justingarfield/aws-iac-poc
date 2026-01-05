@@ -124,4 +124,11 @@ import {
   to = aws_controltower_landing_zone.this
   id = "1931KSSHIHLNIUXQ"
 }
+
+import {
+  provider = aws.us_west_1
+
+  to = aws_kms_replica_key.backup_replica["us-west-1"]
+  id = "mrk-6b99a235fdb14f2ba2b04e2f3c155439"
+}
 */

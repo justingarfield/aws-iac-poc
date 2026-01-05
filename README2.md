@@ -33,6 +33,18 @@ aws controltower get-landing-zone-operation --operation-identifier <operation_id
 }
 ```
 
+## Assumptions squashed
+
+* Does AWS Control Tower create the Shared Accounts (Audit, Log Archive) for me?
+  * It does when using the Console to provision Control Tower
+  * When using the API to provision Control Tower's landing zone, **you** _MUST_ create the Shared Accounts yourself ahead-of-time and pass them to Control Tower's Landing Zone Manifest
+
+* Does Account Factory create the AWS Accounts themselves?
+  * No, Account Factory makes calls to AWS Organizations, which then creates the Member Accounts for it. You can still create Accounts that aren't enrolled through AWS Organizations.
+
+* Simply assume the `OrganizationAccountAccessRole` IAM Role
+  * I attempted to use Assume Role with the Root User and the `OrganizationAccountAccessRole` IAM Role that AWS Organizations adds to each member account; however, Root users cannot assume roles.
+
 ## Some helpful commands
 
 ```bash
@@ -42,18 +54,6 @@ aws controltower delete-landing-zone --landing-zone-identifier <landing zone id>
 
 # Poll every 60-seconds to check status of Landing Zone Operation
 watch -n 60 aws controltower get-landing-zone-operation --operation-identifier <operation id>
-
-# Cleanup after decommissioning a Control Tower Landing Zone (probably don't need this once everything is happy)
-aws iam delete-role-policy --role-name AWSControlTowerAdmin --policy-name AWSControlTowerAdminPolicy
-aws iam detach-role-policy --role-name AWSControlTowerAdmin --policy-arn arn:aws:iam::aws:policy/service-role/AWSControlTowerServiceRolePolicy
-aws iam delete-role --role-name AWSControlTowerAdmin
-
-aws iam delete-role-policy --role-name AWSControlTowerCloudTrailRole --policy-name AWSControlTowerCloudTrailRolePolicy
-aws iam detach-role-policy --role-name AWSControlTowerCloudTrailRole --policy-arn arn:aws:iam::aws:policy/service-role/AWSControlTowerCloudTrailRolePolicy
-aws iam delete-role --role-name AWSControlTowerCloudTrailRole
-
-aws iam delete-role-policy --role-name AWSControlTowerStackSetRole --policy-name AWSControlTowerStackSetRolePolicy
-aws iam delete-role --role-name AWSControlTowerStackSetRole
 ```
 
 # Todo: Restrict more on "arn:aws:iam::*:role/service-role/AWSControlTower*" in `AllowBootstrapperToCreateRequiredRoles` Policy
@@ -72,4 +72,4 @@ aws iam delete-role --role-name AWSControlTowerStackSetRole
 * [](https://docs.aws.amazon.com/controltower/latest/userguide/aws-multi-account-landing-zone.html#multi-account-guidance)
 * [](https://docs.aws.amazon.com/controltower/latest/userguide/setting-up.html)
 * [](https://docs.aws.amazon.com//controltower/latest/userguide/landing-zone-schemas.html)
-* []()
+* [Potholes for Health Checks in AWS Control Tower](https://medium.com/@eric.berberich/potholes-for-health-checks-in-aws-control-tower-1d1429a56e1a)

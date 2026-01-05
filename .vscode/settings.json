@@ -3,7 +3,7 @@
   "editor.insertSpaces": true,
   "json.schemas": [
     {
-      "fileMatch": ["./control-tower/landing-zone-manifest-4.0.json"],
+      "fileMatch": ["landing-zone-manifest-4.0.json"],
       "url": "./control-tower/landing-zone-schema-4.0.json"
     }
   ]

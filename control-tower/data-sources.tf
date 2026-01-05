@@ -4,14 +4,6 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
-data "terraform_remote_state" "organization" {
-  backend = "local"
-
-  config = {
-    path = "../organization/terraform.tfstate"
-  }
-}
-
 data "terraform_remote_state" "control_tower_accounts" {
   backend = "local"
 
@@ -19,3 +11,5 @@ data "terraform_remote_state" "control_tower_accounts" {
     path = "../control-tower-accounts/terraform.tfstate"
   }
 }
+
+data "aws_organizations_organization" "current" {}

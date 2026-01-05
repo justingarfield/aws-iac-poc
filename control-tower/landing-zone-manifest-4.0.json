@@ -40,11 +40,9 @@
       "kmsKeyArn": "${config_kms_key_arn}"
     }
   },
-  "governedRegions": [            
-    "us-east-1"
-  ],
+  "governedRegions": ${governed_regions},
   "securityRoles": {
-    "enabled": true,            
+    "enabled": true,
     "accountId": "${security_roles_account_id}"
   }
 }
