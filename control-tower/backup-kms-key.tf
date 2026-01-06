@@ -60,7 +60,6 @@ resource "aws_kms_replica_key" "backup_replica" {
   # so that Control Tower and manage centralized backups properly.
   for_each = var.additional_governed_regions
   region   = each.value
-  # provider = aws.us_west_1
 
   description             = "AWS Backup KMS key replica"
   deletion_window_in_days = 7
