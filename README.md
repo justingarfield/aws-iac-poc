@@ -1,19 +1,26 @@
 # aws-iac-poc
 
-This repository contains a Proof of Concept (POC) to bootstrap a brand-new AWS Organizations + Control Tower environment.
+This repository contains a Proof of Concept (POC) to bootstrap a brand-new AWS Organizations + Control Tower environment. It's based on the v4.0 Landing Zone template _(latest as-of this writing)_ and follows the AWS Well-Architected / Best Practices guidance provided by AWS.
 
-It's based on the v4.0 Landing Zone template _(latest as-of this writing)_ and follows the AWS Well-Architected / Best Practices guidance provided by AWS themselves.
-
-Some areas don't currently support automation and still require ClickOps, but we attempt to cut-over to Short-lived IAM Identity Center credentials as soon as possible.
+Some areas don't currently support automation and still require ClickOps, but we attempt to cut-over to Short-lived IAM Identity Center credentials and automation as soon as possible.
 
 This is intended _ONLY_ to bootstrap an environment. This repository should always deploy on its own cadence, and be built on-top of after-the-fact. Once these resources are in-place, you should rareyly, if ever, have to touch this repository and its pipeline.
+
+## Directory Layout
+
+```sh
+📂 aws-iac-poc
+├─📁 .vscode                 # VS Code project-level settings and schema config
+├─📁 control-tower           # OpenTofu used to provision Control Tower
+└─📁 control-tower-prereqs   # OpenTofu used to provision Control Tower Prerequisites
+```
 
 ## Objectives
 
 * Deploy an AWS Control Tower enabled environment from scratch
 * Use the root user for as little as possible during provisioning
-* Provision as much as possible using OpenTofu
 * Avoid using long-lived credentials throughout the entire process
+* Only deploy the bare-minimum to allow another project/pipeline to takeover from here
 
 ## Prerequsites
 
@@ -38,7 +45,6 @@ This is intended _ONLY_ to bootstrap an environment. This repository should alwa
   * (optional) Set Console UI to be Browser/System Theme (dark mode)
   * (optional) Set Console UI to default region for sanity sake
 * Enable AWS Organizations _(Note: It's easier to just manually enable this vs setting up a Bootstrapper IAM User...at this point in time there's nothing to manage anyway, as we would just end up ignoring its properties on-change)_
-  * 
 * Enable IAM Identity Center _(Note: IAM Identity Center cannot currently be enabled via the APIs.)_
   * Navigate to the IAM Identity Center landing page
   * Make sure you have the AWS Region you want to provision Identity Center in selected in the UI
