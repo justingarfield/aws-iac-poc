@@ -25,7 +25,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
           "kms:Decrypt",
           "kms:GenerateDataKey"
         ],
-        "Resource" : "${aws_kms_key.centralized_logging.arn}"
+        "Resource" : aws_kms_key.centralized_logging.arn
       },
       {
         "Sid" : "Allow CloudTrail to use KMS for encryption",
@@ -37,7 +37,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
           "kms:GenerateDataKey*",
           "kms:Decrypt"
         ],
-        "Resource" : "${aws_kms_key.centralized_logging.arn}"
+        "Resource" : aws_kms_key.centralized_logging.arn
         "Condition" : {
           "StringEquals" : {
             "aws:SourceArn" : "arn:${data.aws_partition.current.partition}:cloudtrail:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:trail/aws-controltower-BaselineCloudTrail"
