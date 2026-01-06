@@ -120,7 +120,7 @@ unset AWS_ACCESS_KEY_ID
 
 ## Add `AWSControlTowerExecution` to Shared Accounts _(ClickOps)_
 
-* Using the `TEMPORARY-AdministratorAccess` PermissionSet for each of the Shared Accounts to
+* Using the `TEMPORARY-AdministratorAccess` PermissionSet for each of the Shared Accounts...
   * Add the `AWSControlTowerExecution` IAM Role to Shared Accounts
   * See Step 2 of [Manually add the required IAM role to an existing AWS account and enroll it](https://docs.aws.amazon.com/controltower/latest/userguide/enroll-manually.html)
 
