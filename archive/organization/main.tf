@@ -7,6 +7,6 @@ resource "aws_organizations_organization" "this" {
 
   lifecycle {
     # See: https://docs.aws.amazon.com/organizations/latest/APIReference/API_EnableAWSServiceAccess.html
-    ignore_changes = [aws_service_access_principals,enabled_policy_types]
+    ignore_changes = [aws_service_access_principals, enabled_policy_types]
   }
 }

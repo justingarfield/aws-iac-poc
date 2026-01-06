@@ -59,7 +59,7 @@ resource "aws_kms_replica_key" "backup_replica" {
   # We have to create a Key Replica in every Region we operate in, 
   # so that Control Tower and manage centralized backups properly.
   for_each = var.additional_governed_regions
-  region = each.value
+  region   = each.value
   # provider = aws.us_west_1
 
   description             = "AWS Backup KMS key replica"
@@ -69,7 +69,7 @@ resource "aws_kms_replica_key" "backup_replica" {
 
 resource "aws_kms_alias" "backup_replica" {
   for_each = var.additional_governed_regions
-  region = each.value
+  region   = each.value
 
   name          = "alias/backup"
   target_key_id = aws_kms_replica_key.backup_replica[each.key].key_id
@@ -78,7 +78,7 @@ resource "aws_kms_alias" "backup_replica" {
 # See: https://docs.aws.amazon.com/controltower/latest/userguide/backup-prerequisites.html
 resource "aws_kms_key_policy" "backup_replica" {
   for_each = var.additional_governed_regions
-  region = each.value
+  region   = each.value
 
   key_id = aws_kms_replica_key.backup_replica[each.key].key_id
   policy = jsonencode({

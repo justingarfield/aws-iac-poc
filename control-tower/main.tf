@@ -18,7 +18,7 @@ resource "aws_controltower_landing_zone" "this" {
   })
   version = "4.0"
 
-  depends_on = [ aws_kms_replica_key.backup_replica ]
+  depends_on = [aws_kms_replica_key.backup_replica]
 }
 
 /*
