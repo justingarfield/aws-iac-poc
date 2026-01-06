@@ -77,7 +77,7 @@ In an AWS Organizations + Control Tower world, whichever _root account_ you deci
   * Change password
 
 * Get temporary credentials
-  * On the Access Portal page, you should now see an entry under Management for `TEMPORARY-AdministratorAccess`
+  * On the Access Portal page, you should now see an entry under `Management` for `TEMPORARY-AdministratorAccess`
   * Click on the `Access keys` link
   * Copy the CLI env var commands from **Option 1: Set AWS environment variables**
 
@@ -94,6 +94,10 @@ Before you can provision Control Tower's Landing Zone programatically, you need 
 export AWS_REGION=us-east-1
 
 # <paste the Access Portal Access Keys CLI commands here>
+#
+# export AWS_ACCESS_KEY_ID="ABCDEF1234567890"
+# export AWS_SECRET_ACCESS_KEY="ABCDEF1234567890"
+# export AWS_SESSION_TOKEN="ABCDEF1234567890"
 
 # Verify you're the new IIC user
 aws sts get-caller-identity
@@ -126,9 +130,20 @@ unset AWS_ACCESS_KEY_ID
 
 ## Control Tower - Landing Zone
 
+* Get temporary credentials
+  * On the Access Portal page, you should now see an entry under `Management` for `TEMPORARY-AdministratorAccess`
+  * Click on the `Access keys` link
+  * Copy the CLI env var commands from **Option 1: Set AWS environment variables**
+
 ```bash
 # Set Default AWS Region for tooling
 export AWS_REGION=us-east-1
+
+# <paste the Access Portal Access Keys CLI commands here>
+#
+# export AWS_ACCESS_KEY_ID="ABCDEF1234567890"
+# export AWS_SECRET_ACCESS_KEY="ABCDEF1234567890"
+# export AWS_SESSION_TOKEN="ABCDEF1234567890"
 
 # Verify you're the new IIC user
 aws sts get-caller-identity
@@ -140,6 +155,9 @@ tofu -chdir=control-tower/ apply tfplan -auto-approve
 
 # Unset Default AWS Region for tooling
 unset AWS_REGION
+unset AWS_SESSION_TOKEN
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_ACCESS_KEY_ID
 ```
 
 ## Troubleshooting
