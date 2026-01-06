@@ -12,9 +12,9 @@ resource "aws_organizations_organizational_unit" "sandbox" {
   parent_id = data.aws_organizations_organization.current.roots[0].id
 }
 
-###########################
-### Audit - Shared Account
-###########################
+####################
+### Shared Accounts
+####################
 
 # Also referred to as the "Security" account
 resource "aws_organizations_account" "audit" {
@@ -23,29 +23,17 @@ resource "aws_organizations_account" "audit" {
   parent_id = aws_organizations_organizational_unit.security.id
 }
 
-##########################################
-### Backup Administrator - Shared Account
-##########################################
-
 resource "aws_organizations_account" "backup_administrator" {
   name      = "Backup Administrator"
   email     = "aws+backup-administrator@jgarfield.com"
   parent_id = aws_organizations_organizational_unit.security.id
 }
 
-####################################
-### Central Backup - Shared Account
-####################################
-
 resource "aws_organizations_account" "central_backup" {
   name      = "Central Backup"
   email     = "aws+backup@jgarfield.com"
   parent_id = aws_organizations_organizational_unit.security.id
 }
-
-#################################
-### Log Archive - Shared Account
-#################################
 
 resource "aws_organizations_account" "log_archive" {
   name      = "Log Archive"
@@ -56,7 +44,7 @@ resource "aws_organizations_account" "log_archive" {
 ########################
 ### IAM Identity Center
 ########################
-
+/*
 locals {
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
   identity_store_arn = tolist(data.aws_ssoadmin_instances.this.arns)[0]
@@ -150,3 +138,4 @@ resource "aws_ssoadmin_managed_policy_attachment" "this" {
   managed_policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/AdministratorAccess"
   permission_set_arn = aws_ssoadmin_permission_set.this.arn
 }
+*/

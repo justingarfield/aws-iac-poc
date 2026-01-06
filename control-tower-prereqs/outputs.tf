@@ -17,8 +17,3 @@ output "centralized_logging_account_id" {
   description = "The Id of the Control Tower Centralized Logging account."
   value       = aws_organizations_account.log_archive.id
 }
-
-output "sso_portal_url" {
-  description = "The AWS access portal URL."
-  value       = "https://${local.identity_store_id}.awsapps.com/start"
-}

@@ -1,6 +1,12 @@
 # aws-iac-poc
 
-This repository contains a Proof of Concept (POC) 
+This repository contains a Proof of Concept (POC) to bootstrap a brand-new AWS Organizations + Control Tower environment.
+
+It's based on the v4.0 Landing Zone template _(latest as-of this writing)_ and follows the AWS Well-Architected / Best Practices guidance provided by AWS themselves.
+
+Some areas don't currently support automation and still require ClickOps, but we attempt to cut-over to Short-lived IAM Identity Center credentials as soon as possible.
+
+This is intended _ONLY_ to bootstrap an environment. This repository should always deploy on its own cadence, and be built on-top of after-the-fact. Once these resources are in-place, you should rareyly, if ever, have to touch this repository and its pipeline.
 
 ## Objectives
 
@@ -102,10 +108,10 @@ Once you're able to use the IAM Identity Center Access Portal to get into the "s
 
 ```bash
 # Might be able to use --filter or something with the AWS CLI to avoid needing `jq` here
-aws controltower get-landing-zone --landing-zone-identifier 143EDCTTOGQDMP5V --output json | jq .[].manifest > tmp_landingzone_manifest.json
+aws controltower get-landing-zone --landing-zone-identifier <lz id> --output json | jq .[].manifest > tmp_landingzone_manifest.json
 
 # Pass in the existing Landing Zone Manifest, but turn-on the remediation-type of INHERITANCE_DRIFT
-aws controltower update-landing-zone --remediation-types INHERITANCE_DRIFT --landing-zone-identifier 143EDCTTOGQDMP5V --landing-zone-version 4.0 --manifest file://tmp_landingzone_manifest.json
+aws controltower update-landing-zone --remediation-types INHERITANCE_DRIFT --landing-zone-identifier <lz id> --landing-zone-version 4.0 --manifest file://tmp_landingzone_manifest.json
 ```
 
 ## Troubleshooting
