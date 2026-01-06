@@ -38,7 +38,7 @@ In an AWS Organizations + Control Tower world, whichever _root account_ you deci
 ### Shared Accounts
 
 * Audit
-* Backing Administrator
+* Backup Administrator
 * Centralized Backup
 * Log Archive accounts
 
@@ -110,14 +110,19 @@ unset AWS_SECRET_ACCESS_KEY
 unset AWS_ACCESS_KEY_ID
 ```
 
+## Provide your IIC User temporary permissions
+
+* Using the Root user in the Management account
+  * Assign the `TEMPORARY-AdministratorAccess` PermissionSet to your new IIC User for the `Audit`, `Backup Administrator`, `Centralized Backup`, and `Log Archive` accounts
+* Now back to the IAM Identity Center User...
+  * Refresh the AWS Access Portal
+  * You should now see the additional AWS Accounts and PermissionSet
+
 ## Add `AWSControlTowerExecution` to Shared Accounts _(ClickOps)_
 
-Since the "Switch Role" functionality of the Dashboard Account drop-down no longer exists, you'll need to configure IAM Identity Center access to the Organizational accounts.
-
-Once you're able to use the IAM Identity Center Access Portal to get into the "shared accounts", it's time to add the required Control Tower IAM Role.
-
-* Add the `AWSControlTowerExecution` IAM Role to Shared Accounts
-* See: [Manually add the required IAM role to an existing AWS account and enroll it](https://docs.aws.amazon.com/controltower/latest/userguide/enroll-manually.html)
+* Using the `TEMPORARY-AdministratorAccess` PermissionSet for each of the Shared Accounts to
+  * Add the `AWSControlTowerExecution` IAM Role to Shared Accounts
+  * See Step 2 of [Manually add the required IAM role to an existing AWS account and enroll it](https://docs.aws.amazon.com/controltower/latest/userguide/enroll-manually.html)
 
 ## Control Tower - Landing Zone
 
@@ -135,30 +140,6 @@ tofu -chdir=control-tower/ apply tfplan -auto-approve
 
 # Unset Default AWS Region for tooling
 unset AWS_REGION
-```
-
-## Post Control Tower Deployment
-
-### (Clickops) Turn on "Region deny control"
-
-* Navigate to **AWS Control Tower** -> **Landing zone settings**
-* In the Details pane, click on the **Modify settings** button
-* Click the **Next** button to go to the _Update governed Regions_ screen (step 2)
-* Expand the _Region deny control_ section
-* Select the **Enabled** option and click the **Confirm** button in the dialog that appears
-* Click the **Next** button to go to the _Update service integrations_ screen (step 3)
-* Click the **Next** button to go to the _Review and update landing zone_ screen (step 4)
-* Click the **Update landing zone** button
-* Wait for Control Tower to propogate changes
-
-### Turn On "Automatic account enrollment"
-
-```bash
-# Might be able to use --filter or something with the AWS CLI to avoid needing `jq` here
-aws controltower get-landing-zone --landing-zone-identifier <lz id> --output json | jq .[].manifest > tmp_landingzone_manifest.json
-
-# Pass in the existing Landing Zone Manifest, but turn-on the remediation-type of INHERITANCE_DRIFT
-aws controltower update-landing-zone --remediation-types INHERITANCE_DRIFT --landing-zone-identifier <lz id> --landing-zone-version 4.0 --manifest file://tmp_landingzone_manifest.json
 ```
 
 ## Troubleshooting
@@ -212,38 +193,6 @@ aws controltower get-landing-zone-operation --operation-identifier <operation_id
 ```
 
 Create a new OU, make sure it's enrolled in Control Tower, and now revisit the Launch product page.
-
-## wslview configuration
-
-```bash
-sudo apt update && sudo apt install software-properties-common
-sudo add-apt-repository ppa:wslutilities/wslu
-sudo apt update && sudo apt install wslu
-sudo sed -i 's/\/proc\/sys\/fs\/binfmt_misc\/WSLInterop/\/proc\/sys\/fs\/binfmt_misc\/WSLInterop-late/g' /usr/bin/wslview
-```
-
-## Assumptions squashed
-
-* Does AWS Control Tower create the Shared Accounts (Audit, Log Archive) for me?
-  * It does when using the Console to provision Control Tower
-  * When using the API to provision Control Tower's landing zone, **you** _MUST_ create the Shared Accounts yourself ahead-of-time and pass them to Control Tower's Landing Zone Manifest
-
-* Does Account Factory create the AWS Accounts themselves?
-  * No, Account Factory makes calls to AWS Organizations, which then creates the Member Accounts for it. You can still create Accounts that aren't enrolled through AWS Organizations.
-
-* Simply assume the `OrganizationAccountAccessRole` IAM Role
-  * I attempted to use Assume Role with the Root User and the `OrganizationAccountAccessRole` IAM Role that AWS Organizations adds to each member account; however, Root users cannot assume roles.
-
-## Some helpful commands
-
-```bash
-aws controltower list-landing-zones
-
-aws controltower delete-landing-zone --landing-zone-identifier <landing zone id>
-
-# Poll every 60-seconds to check status of Landing Zone Operation
-watch -n 60 aws controltower get-landing-zone-operation --operation-identifier <operation id>
-```
 
 ## References
 
