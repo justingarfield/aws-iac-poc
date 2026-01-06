@@ -86,7 +86,7 @@ In an AWS Organizations + Control Tower world, whichever _root account_ you deci
 Before you can provision Control Tower's Landing Zone programatically, you need to build-out a few prerequisite resources, which include...
 
 * AWS Accounts: `Audit`, `Backup Administrator`, `Central Backup`, and `Log Archive`
-* IAM Roles: `AWSControlTowerAdmin`, `AWSControlTowerCloudTrailRole`, `AWSControlTowerStackSetRole`, and `AWSControlTowerConfigAggregatorRoleForOrganizations`
+* IAM Roles: `AWSControlTowerAdmin`, `AWSControlTowerCloudTrailRole`, and `AWSControlTowerStackSetRole`
 * Organizational Units (OUs): `Sandbox` and `Security`
 
 ```bash
