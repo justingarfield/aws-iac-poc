@@ -48,8 +48,10 @@ In an AWS Organizations + Control Tower world, whichever _root account_ you deci
 * Setup MFA on Root User
   * _(optional)_ Set Console UI to be Browser/System Theme
   * _(optional)_ Set Console UI to Home Region for sanity sake
+
 * Enable AWS Organizations
   * _(Note: It's easier to just manually enable this vs setting up a Bootstrapper IAM User...at this point in time there's nothing to manage anyway, as we would just end up ignoring its properties on-change)_
+
 * Enable IAM Identity Center _(Note: IAM Identity Center cannot currently be enabled via the APIs.)_
   * Navigate to the IAM Identity Center landing page
   * Make sure you have the AWS Region you want to provision Identity Center in selected in the UI
@@ -57,21 +59,31 @@ In an AWS Organizations + Control Tower world, whichever _root account_ you deci
   * Picked `Use AWS owned key` for now
     * (optional) May want to use a CMK here depending on compliance requirements
   * Click the **Enable** button
-* IAM Identity Center User Setup
+
+* IAM Identity Center PermissionSet
+  * Create a PermissionSet named `TEMPORARY-AdministratorAccess`
+  * Under _Permissions_, assign it the AWS managed policy `AdministratorAccess`
+  
+* IAM Identity Center User
   * Navigate to **IAM Identity Center** -> **Users**
-  * Create a temporary PermissionSet to assign the `AdministratorAccess` IAM Role for the Management Account to your newly created IIC User
-  * Open the newly created IIC User
-  * Click on "Reset Password"
-    * Select _"Generate a one-time password and share the password with the user"_ and click *Reset password*
-    * Copy the One-time password for use in the next step
+  * Click the Add user button
+  * Create new IIC user _(can use whatever for username and email, we'll nuke this User later)_
+  * Select _Generate a one-time password that you can share with this user._
+  * Copy the One-time password for use in future steps
+  * Assign the `TEMPORARY-AdministratorAccess` PermissionSet to your new IIC User for the `Management` account
   * Naviate to the AWS Access Portal
   * Login using the newly created IIC User and One-time password
   * Configure MFA for the newly created IIC User
   * Change password
 
+* Get temporary credentials
+  * On the Access Portal page, you should now see an entry under Management for `TEMPORARY-AdministratorAccess`
+  * Click on the `Access keys` link
+  * Copy the CLI env var commands from **Option 1: Set AWS environment variables**
+
 ## Control Tower Prerequisites
 
-Before you can provision Control Tower's Landing Zone programatically, you need to build-out a few prerequisite resources, which includes...
+Before you can provision Control Tower's Landing Zone programatically, you need to build-out a few prerequisite resources, which include...
 
 * AWS Accounts: `Audit`, `Backup Administrator`, `Central Backup`, and `Log Archive`
 * IAM Roles: `AWSControlTowerAdmin`, `AWSControlTowerCloudTrailRole`, `AWSControlTowerStackSetRole`, and `AWSControlTowerConfigAggregatorRoleForOrganizations`
@@ -80,6 +92,8 @@ Before you can provision Control Tower's Landing Zone programatically, you need 
 ```bash
 # Set Default AWS Region for tooling
 export AWS_REGION=us-east-1
+
+# <paste the Access Portal Access Keys CLI commands here>
 
 # Verify you're the new IIC user
 aws sts get-caller-identity
@@ -91,6 +105,9 @@ tofu -chdir=control-tower-prereqs/ apply tfplan -auto-approve
 
 # Unset Default AWS Region for tooling
 unset AWS_REGION
+unset AWS_SESSION_TOKEN
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_ACCESS_KEY_ID
 ```
 
 ## Add `AWSControlTowerExecution` to Shared Accounts _(ClickOps)_
