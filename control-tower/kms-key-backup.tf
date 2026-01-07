@@ -1,5 +1,9 @@
 # See: https://docs.aws.amazon.com/controltower/latest/userguide/backup-prerequisites.html
 
+##############################
+# Primary Home Region KMS Key 
+##############################
+
 resource "aws_kms_key_policy" "backup" {
   key_id = aws_kms_key.backup.id
   policy = jsonencode({
@@ -44,6 +48,7 @@ resource "aws_kms_key_policy" "backup" {
   })
 }
 
+# This Key "MUST" be Multi-region for Centralized Backup to provision properly
 resource "aws_kms_key" "backup" {
   description             = "AWS Backup KMS key"
   enable_key_rotation     = true
@@ -56,9 +61,13 @@ resource "aws_kms_alias" "backup" {
   target_key_id = aws_kms_key.backup.key_id
 }
 
+#####################################
+# Additional Region KMS Key Replicas 
+#####################################
+
 resource "aws_kms_replica_key" "backup_replica" {
   # We have to create a Key Replica in every Region we operate in, 
-  # so that Control Tower and manage centralized backups properly.
+  # so that Control Tower can manage centralized backups properly.
   for_each = var.additional_governed_regions
   region   = each.value
 

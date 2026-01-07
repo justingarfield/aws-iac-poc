@@ -55,7 +55,7 @@ resource "aws_kms_key_policy" "centralized_logging" {
 resource "aws_kms_key" "centralized_logging" {
   description             = "AWS Config KMS key"
   enable_key_rotation     = true
-  multi_region            = false # "The KMS key selected for the AWS Config integration must not be a multi-region key."
+  multi_region            = false
   deletion_window_in_days = 7
 }
 
