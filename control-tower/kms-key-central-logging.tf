@@ -1,4 +1,5 @@
 # See: https://docs.aws.amazon.com/controltower/latest/userguide/configure-kms-keys.html
+
 resource "aws_kms_key_policy" "centralized_logging" {
   key_id = aws_kms_key.centralized_logging.id
   policy = jsonencode({

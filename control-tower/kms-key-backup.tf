@@ -1,4 +1,5 @@
 # See: https://docs.aws.amazon.com/controltower/latest/userguide/backup-prerequisites.html
+
 resource "aws_kms_key_policy" "backup" {
   key_id = aws_kms_key.backup.id
   policy = jsonencode({
