@@ -7,6 +7,11 @@ resource "aws_organizations_organizational_unit" "security" {
   parent_id = data.aws_organizations_organization.current.roots[0].id
 }
 
+resource "aws_organizations_organizational_unit" "sandbox" {
+  name      = "Sandbox"
+  parent_id = data.aws_organizations_organization.current.roots[0].id
+}
+
 ####################
 ### Shared Accounts
 ####################
@@ -147,4 +152,11 @@ resource "aws_iam_role_policy" "aws_control_tower_stack_set" {
       }
     ]
   })
+}
+
+removed {
+  from = aws_identitystore_user.this
+  lifecycle {
+    destroy = false
+  }
 }
