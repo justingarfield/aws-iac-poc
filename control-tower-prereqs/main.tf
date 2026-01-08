@@ -41,6 +41,48 @@ resource "aws_organizations_account" "log_archive" {
   parent_id = aws_organizations_organizational_unit.security.id
 }
 
+/*
+ * If you want to automatically close the AWS Accounts in the AWS Organzation with 'destroy'
+ * then you'll need to configure payment methods for each account to allow them to break-away 
+ * from the AWS Org.
+ *
+ * If you want to manually close the AWS Accounts in the AWS Organization with 'destroy', then
+ * uncomment this section and comment out the 'aws_organizations_account' resources above, as
+ * well as the outputs.tf outputs (since they'll no longer have values)
+ *
+removed {
+  from = aws_organizations_account.audit
+
+  lifecycle {
+    destroy = false
+  }
+}
+
+removed {
+  from = aws_organizations_account.backup_administrator
+
+  lifecycle {
+    destroy = false
+  }
+}
+
+removed {
+  from = aws_organizations_account.central_backup
+
+  lifecycle {
+    destroy = false
+  }
+}
+
+removed {
+  from = aws_organizations_account.log_archive
+
+  lifecycle {
+    destroy = false
+  }
+}
+*/
+
 # See https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-prereques.html#w2aac15c17c15c13
 
 ##################################
@@ -152,11 +194,4 @@ resource "aws_iam_role_policy" "aws_control_tower_stack_set" {
       }
     ]
   })
-}
-
-removed {
-  from = aws_identitystore_user.this
-  lifecycle {
-    destroy = false
-  }
 }

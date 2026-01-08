@@ -160,6 +160,19 @@ unset AWS_SECRET_ACCESS_KEY
 unset AWS_ACCESS_KEY_ID
 ```
 
+## Decomissioning
+
+Assuming you've unwound everything above the core AWS Org and Control Tower resources provided by this repository, and are ready to decomission the landing zone and Org...
+
+* Ensure that any Member accounts that were under Control Tower have been Terminated in Service Catalog
+* Use `tofu -chdir=control-tower/ destroy` to decomission the Landing Zone
+  * This should remove all AWS Config controls and what-not from Member Accounts
+  * Some IAM Roles and what-not may be left around
+* Now use `cloud-nuke` on each Shared Account to verify that all resources are removed _(will still get billed for anything until 90-day account closure occurs...Longer in GovCloud)_
+* Manually close each Shared Account via the AWS Organizations screen in the Management Account
+* Now use `cloud-nuke` on the Management Account
+* Manually close the Management Account once Shared Accounts have closed
+
 ## Troubleshooting
 
 ### Region Deny Control is blocking new governed region from provisioning
